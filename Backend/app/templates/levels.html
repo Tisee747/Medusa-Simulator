@@ -1,0 +1,43 @@
+<!doctype html>
+<!-- Difficulty selection page for the simulator. -->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Choose a Difficulty</title>
+    <link rel="stylesheet" href="/static/app.css">
+</head>
+<body class="screen">
+    <main class="shell selection-shell">
+        <header class="page-header split-header">
+            <div>
+                <p class="eyebrow">STEP 1 OF 2</p>
+                <h1>Choose a Difficulty</h1>
+                <p>Pick the challenge that feels right for you.</p>
+            </div>
+            <div class="compact-progress">
+                <span>Progress</span>
+                <strong>{{ attempted_count }} / {{ question_count }}</strong>
+            </div>
+        </header>
+
+        <section class="level-grid level-grid-two">
+            {% for level in levels %}
+            <form method="post" action="/select-level" class="selection-form">
+                <input type="hidden" name="level" value="{{ level }}">
+                <button class="level-card level-{{ level|lower }}" type="submit">
+                    <span class="level-name">{{ level }}</span>
+                    <span class="level-count">{{ level_counts[level] }} Questions</span>
+                    <span class="level-description">{{ descriptions[level] }}</span>
+                    <span class="select-label">SELECT</span>
+                </button>
+            </form>
+            {% endfor %}
+        </section>
+
+        <nav class="page-actions">
+            <a class="button button-ghost" href="/monitor-home">HOME</a>
+        </nav>
+    </main>
+</body>
+</html>

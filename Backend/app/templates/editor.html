@@ -1,0 +1,75 @@
+<!doctype html>
+<!-- Editor page for submitting and checking one simulator attempt. -->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ question.title }}</title>
+    <link rel="stylesheet" href="/static/app.css">
+    <link rel="stylesheet" href="/static/editor.css">
+</head>
+<body class="screen editor-screen">
+    <main class="editor-shell" data-attempt-id="{{ attempt.attempt_id }}">
+        <header class="editor-header">
+            <div>
+                <p class="eyebrow">{{ question.level }} · {{ question.code }}</p>
+                <h1>{{ question.title }}</h1>
+            </div>
+            <div class="best-score-chip">
+                <span>Best Score</span>
+                <strong>{{ best_score|round(1) }} / 100</strong>
+            </div>
+        </header>
+
+        <section class="workspace-grid">
+            <aside class="question-summary-panel card">
+                <h2>Question Summary</h2>
+                <p class="question-copy">{{ question.summary }}</p>
+                <div class="summary-format">
+                    <h3>Input</h3>
+                    <ul>{% for item in question.input_format %}<li>{{ item }}</li>{% endfor %}</ul>
+                    <h3>Output</h3>
+                    <ul>{% for item in question.output_format %}<li>{{ item }}</li>{% endfor %}</ul>
+                </div>
+                <a class="button button-ghost button-full" href="/question/{{ attempt.attempt_id }}">VIEW FULL QUESTION</a>
+            </aside>
+
+            <section class="code-panel card" aria-label="Python code editor">
+                <div class="code-toolbar">
+                    <div>
+                        <h2>Python Editor</h2>
+                        <p>Write your answer here.</p>
+                    </div>
+                    <button id="reset-code" class="button button-ghost" type="button">RESET CODE</button>
+                </div>
+                <textarea id="source-code" spellcheck="false" aria-label="Python code editor">{{ source_code }}</textarea>
+            </section>
+        </section>
+
+        <section id="result-panel" class="result-panel card" aria-live="polite">
+            <div class="result-heading">
+                <div>
+                    <p class="eyebrow">CHECK RESULTS</p>
+                    <h2 id="result-title">Your tests have not been checked yet.</h2>
+                </div>
+                <div id="result-score" class="check-score" hidden></div>
+            </div>
+            <p id="result-message" class="result-message">Use <strong>Check Answer</strong> for feedback, or <strong>Submit Answer</strong> to save a score.</p>
+            <div id="score-breakdown" class="score-breakdown" hidden></div>
+            <div id="test-results" class="test-results"></div>
+            <pre id="error-output" class="error-output" hidden></pre>
+        </section>
+
+        <footer class="editor-actions">
+            <span id="run-status" role="status">Ready.</span>
+            <div class="action-buttons">
+                <button id="check-code" class="button button-secondary button-large" type="button">CHECK ANSWER</button>
+                <button id="run-submit" class="button button-primary button-large" type="button">SUBMIT ANSWER</button>
+            </div>
+        </footer>
+    </main>
+
+    <script>window.SIMULATOR_STARTER_CODE = {{ question.starter_code|tojson }};</script>
+    <script src="/static/editor.js"></script>
+</body>
+</html>

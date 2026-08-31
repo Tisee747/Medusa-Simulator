@@ -1,0 +1,6 @@
+# Keep secrets, logs, process state, and generated Python caches out of releases.
+.env
+*.log
+*.pid
+__pycache__/
+.pytest_cache/

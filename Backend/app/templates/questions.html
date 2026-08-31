@@ -1,0 +1,53 @@
+<!doctype html>
+<!-- Question selection page for one difficulty level. -->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ level }} Questions</title>
+    <link rel="stylesheet" href="/static/app.css">
+</head>
+<body class="screen">
+    <main class="shell selection-shell">
+        <header class="page-header split-header">
+            <div>
+                <p class="eyebrow">STEP 2 OF 2 · {{ level }}</p>
+                <h1>Choose a Question</h1>
+                <p>{{ description }}</p>
+            </div>
+            <div class="compact-progress">
+                <span>Total Score</span>
+                <strong>{{ total_score|round(1) }}</strong>
+            </div>
+        </header>
+
+        <section class="question-grid">
+            {% for question in questions %}
+            {% set item = progress_by_code.get(question.code, {}) %}
+            <form method="post" action="/select-question" class="selection-form">
+                <input type="hidden" name="question_code" value="{{ question.code }}">
+                <button class="question-card" type="submit">
+                    <span class="question-card-top">
+                        <span class="question-code">{{ question.code }}</span>
+                        {% if item.get('is_completed') %}
+                        <span class="status-badge status-complete">ATTEMPTED</span>
+                        {% else %}
+                        <span class="status-badge">NEW</span>
+                        {% endif %}
+                    </span>
+                    <span class="question-title">{{ question.title }}</span>
+                    <span class="question-summary">{{ question.summary }}</span>
+                    <span class="question-score">Best Score: <strong>{{ (item.get('best_score') or 0)|round(1) }} / 100</strong></span>
+                    <span class="select-label">OPEN QUESTION</span>
+                </button>
+            </form>
+            {% endfor %}
+        </section>
+
+        <nav class="page-actions">
+            <a class="button button-ghost" href="/levels">BACK</a>
+            <a class="button button-ghost" href="/monitor-home">HOME</a>
+        </nav>
+    </main>
+</body>
+</html>

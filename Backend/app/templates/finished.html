@@ -1,0 +1,35 @@
+<!doctype html>
+<!-- Final result page shown after an animation is complete. -->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Result Review</title>
+    <link rel="stylesheet" href="/static/app.css">
+</head>
+<body class="screen finished-screen">
+    <main class="shell finished-shell">
+        <p class="eyebrow">{{ question.code }}</p>
+        <h1>YOUR CODE IN ACTION</h1>
+        <h2>{{ question.title }}</h2>
+        <p class="finished-copy">
+            {% if attempt.overall_correct %}
+            Great work. Your result matched the goal.
+            {% else %}
+            Now you can see what your code did and where the result changed.
+            {% endif %}
+        </p>
+
+        <section class="finished-score card">
+            <div><span>This Score</span><strong>{{ attempt.score|round(1) }} / 100</strong></div>
+            <div><span>Best Score</span><strong>{{ best_score|round(1) }} / 100</strong></div>
+        </section>
+
+        <nav class="finished-actions">
+            <a class="button button-secondary button-large" href="/editor/{{ attempt.attempt_id }}">TRY AGAIN</a>
+            <a class="button button-primary button-large" href="/questions/{{ question.level|lower }}">NEXT QUESTION</a>
+            <a class="button button-ghost button-large" href="/monitor-home">HOME</a>
+        </nav>
+    </main>
+</body>
+</html>

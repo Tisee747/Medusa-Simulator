@@ -1,0 +1,79 @@
+<!doctype html>
+<!-- Question overview page shown before the editor opens. -->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ question.title }}</title>
+    <link rel="stylesheet" href="/static/app.css">
+</head>
+<body class="screen overview-screen">
+    <main class="shell overview-shell">
+        <header class="overview-header">
+            <div>
+                <p class="eyebrow">{{ question.level }} · {{ question.code }}</p>
+                <h1>{{ question.title }}</h1>
+            </div>
+            <form method="post" action="/start-coding/{{ attempt.attempt_id }}">
+                <button class="button button-primary button-xl" type="submit">START CODING</button>
+            </form>
+        </header>
+
+        <section class="overview-content">
+            <article class="overview-main card">
+                <h2>Mission</h2>
+                <p class="question-copy">{{ question.summary }}</p>
+
+                <h2>What You Need to Build</h2>
+                <ol class="readable-list">
+                    {% for item in question.learning_objectives %}<li>{{ item }}</li>{% endfor %}
+                </ol>
+
+                <h2>Important Rules</h2>
+                <ul class="readable-list">
+                    {% for item in guide.rules %}<li>{{ item }}</li>{% endfor %}
+                </ul>
+            </article>
+
+            <aside class="overview-side">
+                <article class="card format-card">
+                    <h2>Input</h2>
+                    <ul class="readable-list compact-list">
+                        {% for item in question.input_format %}<li>{{ item }}</li>{% endfor %}
+                    </ul>
+                </article>
+                <article class="card format-card">
+                    <h2>Output</h2>
+                    <ul class="readable-list compact-list">
+                        {% for item in question.output_format %}<li>{{ item }}</li>{% endfor %}
+                    </ul>
+                </article>
+            </aside>
+        </section>
+
+        <section class="card examples-card">
+            <h2>Examples</h2>
+            <div class="example-grid">
+                {% for case in cases %}
+                <article class="example-card">
+                    <h3>{{ case.name }}</h3>
+                    <span>Input</span><pre>{{ case.input }}</pre>
+                    {% if case.editor_legend %}
+                    <span>Package Data</span><pre>{% for item in case.editor_legend %}{{ item.package_id }} — {{ item.kategori }} — {{ item.berat }}{% if not loop.last %}
+{% endif %}{% endfor %}</pre>
+                    {% endif %}
+                    {% if case.expected is not none %}<span>Expected Result</span><pre>{{ case.expected }}</pre>{% endif %}
+                </article>
+                {% endfor %}
+            </div>
+        </section>
+
+        <nav class="page-actions">
+            <a class="button button-ghost" href="/questions/{{ question.level|lower }}">BACK TO QUESTIONS</a>
+            <form method="post" action="/start-coding/{{ attempt.attempt_id }}">
+                <button class="button button-primary" type="submit">START CODING</button>
+            </form>
+        </nav>
+    </main>
+</body>
+</html>

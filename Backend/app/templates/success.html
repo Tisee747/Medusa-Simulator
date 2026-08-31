@@ -1,0 +1,58 @@
+<!doctype html>
+<!-- Score and animation page for a submitted attempt. -->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Your Score</title>
+    <link rel="stylesheet" href="/static/app.css">
+</head>
+<body class="screen score-screen">
+    <main class="shell score-shell">
+        <header class="score-hero {{ 'score-perfect' if attempt.overall_correct else 'score-partial' }}">
+            <p class="eyebrow">{{ question.level }} · {{ question.code }}</p>
+            <h1>{% if attempt.overall_correct %}GREAT WORK!{% elif attempt.result_status == 'ERROR' %}KEEP GOING{% else %}GOOD TRY!{% endif %}</h1>
+            <div class="score-number">{{ attempt.score|round(1) }} <span>/ 100</span></div>
+            <p>{% if attempt.overall_correct %}Your answer met every requirement.{% elif attempt.result_status == 'ERROR' %}Your submission was saved with a score. Fix the code and try again.{% else %}Your score was saved. Improve your code to increase your best score.{% endif %}</p>
+        </header>
+
+        <section class="score-grid">
+            <article class="card score-card">
+                <h2>Score Breakdown</h2>
+                <div class="breakdown-list">
+                    {% for item in score_breakdown %}
+                    <div class="breakdown-row">
+                        <span>{{ item.label }}{% if item.detail %}<small>{{ item.detail }}</small>{% endif %}</span>
+                        <strong>{{ item.points|round(1) }} / {{ item.max_points|round(1) }}</strong>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="best-score-row">
+                    <span>Your Best Score</span>
+                    <strong>{{ best_score|round(1) }} / 100</strong>
+                </div>
+            </article>
+
+            <article class="card control-panel-instruction">
+                {% if animation_available %}
+                <p class="eyebrow">NEXT STEP</p>
+                <h2>READY TO PLAY</h2>
+                <p>On the <strong class="control-panel-name">CONTROL PANEL</strong>, press <strong class="control-panel-action">PLAY MY RESULT</strong>.</p>
+                <p>Watch the simulator to see what your code actually did.</p>
+                <span class="play-ready-badge">RESULT READY</span>
+                {% else %}
+                <p class="eyebrow">NEXT STEP</p>
+                <h2>FIX THE CODE</h2>
+                <p>The code could not produce a safe result to play yet.</p>
+                <span class="play-locked-badge">PLAYBACK UNAVAILABLE</span>
+                {% endif %}
+            </article>
+        </section>
+
+        <nav class="score-actions">
+            <a class="button button-secondary button-large" href="/editor/{{ attempt.attempt_id }}">IMPROVE ANSWER</a>
+            <a class="button button-ghost button-large" href="/questions/{{ question.level|lower }}">CHOOSE ANOTHER QUESTION</a>
+        </nav>
+    </main>
+</body>
+</html>

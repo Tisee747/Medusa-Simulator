@@ -1,0 +1,54 @@
+<!doctype html>
+<!-- Public leaderboard page for completed simulator attempts. -->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+    <meta name="color-scheme" content="light">
+    <title>MEDUSA Leaderboard</title>
+    <link rel="stylesheet" href="/static/leaderboard.css">
+</head>
+<body class="leaderboard-screen">
+    <main class="leaderboard-shell" aria-live="polite">
+        <header class="leaderboard-header">
+            <div class="brand-block">
+                <p class="brand-name">MEDUSA</p>
+                <h1>LEADERBOARD</h1>
+            </div>
+            <div class="leaderboard-meta">
+                <span class="top-ten-badge">TOP 10 PLAYERS</span>
+                <span id="leaderboard-updated" class="updated-time">Last updated: —</span>
+            </div>
+        </header>
+
+        <div id="leaderboard-loading" class="loading-state" role="status">
+            <span class="loading-spinner" aria-hidden="true"></span>
+            <span>Loading scores...</span>
+        </div>
+
+        <section id="leaderboard-content" class="leaderboard-content">
+            <section id="leaderboard-empty" class="empty-state" hidden>
+                <div class="empty-mark" aria-hidden="true">★</div>
+                <h2>No scores yet</h2>
+                <p>Submit a question to join the leaderboard.</p>
+            </section>
+
+            <section id="leaderboard-results" class="leaderboard-results" hidden>
+                <section id="leaderboard-podium" class="podium" aria-label="Top three players" hidden></section>
+                <section id="leaderboard-table-panel" class="ranking-panel" aria-label="Leaderboard ranking" hidden>
+                    <table class="ranking-table">
+                        <thead><tr><th class="rank-column">RANK</th><th>PLAYER</th><th class="number-column">TOTAL SCORE</th><th class="number-column">ATTEMPTED</th></tr></thead>
+                        <tbody id="leaderboard-body"></tbody>
+                    </table>
+                </section>
+            </section>
+        </section>
+
+        <div id="leaderboard-error" class="error-bar" role="status" hidden>
+            Connection interrupted. Retrying automatically.
+        </div>
+    </main>
+    <script src="/static/leaderboard.js" defer></script>
+</body>
+</html>
